@@ -17,6 +17,21 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'imgs/[name].[hash].[ext]'
+            }
+          }
+        ]
+      },
+      {
         type: 'javascript/auto',
         test: /\.json$/,
         exclude: /node_modules/,

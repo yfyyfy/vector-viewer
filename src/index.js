@@ -1,3 +1,8 @@
+import L from 'leaflet';
+import 'leaflet.vectorgrid';
+
+import './index.css';
+
 import euCountriesJson from './eu-countries.json';
 var request = new XMLHttpRequest();
 request.open("GET", euCountriesJson, false);
