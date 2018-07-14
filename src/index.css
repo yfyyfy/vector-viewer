@@ -1,1 +1,5 @@
 @import "../node_modules/leaflet/dist/leaflet.css";
+
+.leaflet-layer>.leaflet-tile-container>svg.leaflet-tile {
+  overflow: hidden;
+}
