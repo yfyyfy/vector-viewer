@@ -1,3 +1,5 @@
+import 'babel-polyfill';
+
 import L from 'leaflet';
 import 'leaflet.vectorgrid';
 
