@@ -1,5 +1,6 @@
+import euCountriesJson from './eu-countries.json';
 var request = new XMLHttpRequest();
-request.open("GET", "./eu-countries.json", false);
+request.open("GET", euCountriesJson, false);
 request.send(null);
 var euCountries = JSON.parse(request.responseText);
 
