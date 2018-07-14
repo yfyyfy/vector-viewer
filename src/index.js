@@ -25,58 +25,60 @@ var clearHighlight = function() {
   }
   highlight = null;
 };
+var highlightPolygon = function(e) {
+  var properties = e.layer.properties;
+  L.popup()
+    .setContent(properties.name || properties.type)
+    .setLatLng(e.latlng)
+    .openOn(map);
+
+  clearHighlight();
+  highlight = properties.wb_a3;
+
+  var p = properties.mapcolor7 % 5;
+  var style = {
+    fillColor: p === 0 ? '#800026' :
+      p === 1 ? '#E31A1C' :
+      p === 2 ? '#FEB24C' :
+      p === 3 ? '#B2FE4C' : '#FFEDA0',
+    fillOpacity: 0.5,
+    fillOpacity: 1,
+    stroke: true,
+    fill: true,
+    color: 'red',
+    opacity: 1,
+    weight: 2
+  };
+
+  vectorGrid.setFeatureStyle(properties.wb_a3, style);
+};
+var fillPolygon = function(properties, zoom) {
+  var p = properties.mapcolor7 % 5;
+  return {
+    fillColor: p === 0 ? '#800026' :
+      p === 1 ? '#E31A1C' :
+      p === 2 ? '#FEB24C' :
+      p === 3 ? '#B2FE4C' : '#FFEDA0',
+    fillOpacity: 0.5,
+    //fillOpacity: 1,
+    stroke: true,
+    fill: true,
+    color: 'black',
+    //opacity: 0.2,
+    weight: 0
+  };
+};
 var vectorGrid = L.vectorGrid.slicer( euCountries, {
   rendererFactory: L.svg.tile,
   vectorTileLayerStyles: {
-    sliced: function(properties, zoom) {
-      var p = properties.mapcolor7 % 5;
-      return {
-        fillColor: p === 0 ? '#800026' :
-          p === 1 ? '#E31A1C' :
-          p === 2 ? '#FEB24C' :
-          p === 3 ? '#B2FE4C' : '#FFEDA0',
-        fillOpacity: 0.5,
-        //fillOpacity: 1,
-        stroke: true,
-        fill: true,
-        color: 'black',
-        //opacity: 0.2,
-        weight: 0,
-      }
-    }
+    sliced: fillPolygon
   },
   interactive: true,
   getFeatureId: function(f) {
     return f.properties.wb_a3;
   }
 })
-    .on('mouseover', function(e) {
-      var properties = e.layer.properties;
-      L.popup()
-        .setContent(properties.name || properties.type)
-        .setLatLng(e.latlng)
-        .openOn(map);
-
-      clearHighlight();
-      highlight = properties.wb_a3;
-
-      var p = properties.mapcolor7 % 5;
-      var style = {
-        fillColor: p === 0 ? '#800026' :
-          p === 1 ? '#E31A1C' :
-          p === 2 ? '#FEB24C' :
-          p === 3 ? '#B2FE4C' : '#FFEDA0',
-        fillOpacity: 0.5,
-        fillOpacity: 1,
-        stroke: true,
-        fill: true,
-        color: 'red',
-        opacity: 1,
-        weight: 2,
-      };
-
-      vectorGrid.setFeatureStyle(properties.wb_a3, style);
-    })
+    .on('mouseover', highlightPolygon)
     .addTo(map);
 
 map.on('click', clearHighlight);
