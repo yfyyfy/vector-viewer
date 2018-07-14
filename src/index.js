@@ -19,6 +19,21 @@ var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/
 }).addTo(map);
 
 var highlight;
+var polygonStyle = function(mapcolor7, forHighlight) {
+  var p = mapcolor7 % 5;
+  return {
+    fillColor: p === 0 ? '#800026' :
+      p === 1 ? '#E31A1C' :
+      p === 2 ? '#FEB24C' :
+      p === 3 ? '#B2FE4C' : '#FFEDA0',
+    fillOpacity: forHighlight ? 1 : 0.5,
+    stroke: true,
+    fill: true,
+    color: forHighlight ? 'red' : 'black',
+    opacity: 1,
+    weight: forHighlight ? 2 : 0
+  };
+};
 var clearHighlight = function() {
   if (highlight) {
     vectorGrid.resetFeatureStyle(highlight);
@@ -35,38 +50,11 @@ var highlightPolygon = function(e) {
   clearHighlight();
   highlight = properties.wb_a3;
 
-  var p = properties.mapcolor7 % 5;
-  var style = {
-    fillColor: p === 0 ? '#800026' :
-      p === 1 ? '#E31A1C' :
-      p === 2 ? '#FEB24C' :
-      p === 3 ? '#B2FE4C' : '#FFEDA0',
-    fillOpacity: 0.5,
-    fillOpacity: 1,
-    stroke: true,
-    fill: true,
-    color: 'red',
-    opacity: 1,
-    weight: 2
-  };
-
+  var style = polygonStyle(properties.mapcolor7, true);
   vectorGrid.setFeatureStyle(properties.wb_a3, style);
 };
 var fillPolygon = function(properties, zoom) {
-  var p = properties.mapcolor7 % 5;
-  return {
-    fillColor: p === 0 ? '#800026' :
-      p === 1 ? '#E31A1C' :
-      p === 2 ? '#FEB24C' :
-      p === 3 ? '#B2FE4C' : '#FFEDA0',
-    fillOpacity: 0.5,
-    //fillOpacity: 1,
-    stroke: true,
-    fill: true,
-    color: 'black',
-    //opacity: 0.2,
-    weight: 0
-  };
+  return polygonStyle(properties.mapcolor7, false);
 };
 var vectorGrid = L.vectorGrid.slicer( euCountries, {
   rendererFactory: L.svg.tile,
