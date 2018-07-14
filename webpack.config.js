@@ -14,6 +14,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
 
+  optimization: {
+    splitChunks: {
+      name: 'vendor',
+      chunks: 'initial'
+    }
+  },
+
   module: {
     rules: [
       {
