@@ -24,23 +24,24 @@ export default class VectorMap {
   }
 
   setupVectorGridLayer(jsonFile) {
-    const request = new XMLHttpRequest();
-    request.open("GET", jsonFile, false);
-    request.send(null);
-    const polygon = JSON.parse(request.responseText);
-
-    this.vectorGridLayer = L.vectorGrid.slicer(polygon, {
+    let options = {
       rendererFactory: L.svg.tile,
       vectorTileLayerStyles: {
         sliced: this.stylePolygon
       },
       interactive: true,
-      getFeatureId: function(f) {
+      getFeatureId: (f) => {
         return f.properties.wb_a3;
       }
+    };
+
+    fetch(jsonFile).then((response) => {
+      return response.json();
+    }).then((polygon) => {
+      this.vectorGridLayer = L.vectorGrid.slicer(polygon, options);
+      this.vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
+      this.vectorGridLayer.addTo(this.map);
     });
-    this.vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
-    this.vectorGridLayer.addTo(this.map);
   }
 
   bind() {
