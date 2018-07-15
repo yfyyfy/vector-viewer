@@ -50,7 +50,7 @@ module.exports = {
       },
       {
         type: 'javascript/auto',
-        test: /\.json$/,
+        test: /\.(json|geojson)$/,
         exclude: /node_modules/,
         use: [
           {
