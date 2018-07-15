@@ -30,6 +30,9 @@ module.exports = {
         options: {
           presets: [
             [ 'env', { useBuiltIns: true } ]
+          ],
+          plugins: [
+            [ 'transform-class-properties', { spec: true } ]
           ]
         }
       },

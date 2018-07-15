@@ -19,7 +19,7 @@ class VectorMap {
     const polygon = JSON.parse(request.responseText);
     this.setupVectorGridLayer(polygon);
 
-    this.map.on('click', () => this.setHighlight());
+    this.map.on('click', (e) => this.setHighlight());
     this.map.setView({lat: 47.040182144806664, lng: 9.667968750000002}, 5);
   }
 
@@ -35,14 +35,14 @@ class VectorMap {
     this.vectorGridLayer = L.vectorGrid.slicer(polygon, {
       rendererFactory: L.svg.tile,
       vectorTileLayerStyles: {
-        sliced: (properties, zoom) => this.fillPolygon(properties, zoom)
+        sliced: this.fillPolygon
       },
       interactive: true,
       getFeatureId: function(f) {
         return f.properties.wb_a3;
       }
     });
-    this.vectorGridLayer.on('mouseover', (e) => this.highlightPolygon(e));
+    this.vectorGridLayer.on('mouseover', this.highlightPolygon);
     this.vectorGridLayer.addTo(this.map);
   }
 
@@ -69,7 +69,7 @@ class VectorMap {
     this.setHighlight.highlightedPolygon = polygon;
   }
 
-  highlightPolygon(e) {
+  highlightPolygon = (e) => {
     const properties = e.layer.properties;
     L.popup()
       .setContent(properties.name || properties.type)
@@ -82,7 +82,7 @@ class VectorMap {
     this.vectorGridLayer.setFeatureStyle(properties.wb_a3, style);
   }
 
-  fillPolygon(properties, zoom) {
+  fillPolygon = (properties, zoom) => {
     return this.polygonStyle(properties.mapcolor7, false);
   };
 }
