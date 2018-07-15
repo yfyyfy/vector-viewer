@@ -12,11 +12,7 @@ class VectorMap {
     const attribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
     this.setupTileLayer(tileURL, attribution);
 
-    const jsonFile = require('./eu-countries.json');
-    const request = new XMLHttpRequest();
-    request.open("GET", jsonFile, false);
-    request.send(null);
-    const polygon = JSON.parse(request.responseText);
+    const polygon = require('./eu-countries.json');
     this.setupVectorGridLayer(polygon);
 
     this.map.on('click', () => this.setHighlight());
