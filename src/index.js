@@ -87,4 +87,4 @@ class VectorMap {
   };
 }
 
-var vm = new VectorMap('map');
+vm = new VectorMap('map');
