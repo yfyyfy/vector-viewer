@@ -31,7 +31,7 @@ export default class VectorMap {
       },
       interactive: true,
       getFeatureId: (f) => {
-        return f.properties.wb_a3;
+        return this.polygonId(f.properties);
       }
     };
 
@@ -52,5 +52,6 @@ export default class VectorMap {
 
   mapOnClick(e) {}
   polygonOnMouseOver(e) {}
-  stylePolygon(properties, zoom) {return null;};
+  stylePolygon(properties, zoom) {return null;}
+  polygonId(properties) {return null;}
 }

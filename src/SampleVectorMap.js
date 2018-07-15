@@ -17,6 +17,10 @@ export default class SampleVectorMap extends VectorMap {
     };
   }
 
+  polygonId(properties) {
+    return properties.wb_a3;
+  }
+
   setHighlight(polygon) {
     if (this.setHighlight.highlightedPolygon) {
       this.vectorGridLayer.resetFeatureStyle(this.setHighlight.highlightedPolygon);
@@ -36,10 +40,10 @@ export default class SampleVectorMap extends VectorMap {
       .setLatLng(e.latlng)
       .openOn(this.map);
 
-    this.setHighlight(properties.wb_a3);
+    this.setHighlight(this.polygonId(properties));
 
     const style = this.polygonStyle(properties.mapcolor7, true);
-    this.vectorGridLayer.setFeatureStyle(properties.wb_a3, style);
+    this.vectorGridLayer.setFeatureStyle(this.polygonId(properties), style);
   }
 
   stylePolygon(properties, zoom) {
