@@ -46,6 +46,8 @@ export default class VectorMap {
       vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
       vectorGridLayer.addTo(this.layerGroup);
 
+      patchVectorGridLayer(vectorGridLayer);
+
       return vectorGridLayer;
     });
   }
@@ -60,4 +62,17 @@ export default class VectorMap {
   polygonOnMouseOver(e) {}
   stylePolygon(properties, zoom) {return null;}
   polygonId(properties) {return null;}
+}
+
+function patchVectorGridLayer(obj) {
+  // Fix error for point data.
+  // eg. mouseover does not work without this.
+  obj._createLayer_orig = obj._createLayer;
+  obj._createLayer = function(feat, pxPerExtent, layerStyle) {
+    let layer = this._createLayer_orig(feat, pxPerExtent, layerStyle);
+    if (feat.type === 1) {
+      layer.getLatLng = null;
+    }
+    return layer;
+  };
 }
