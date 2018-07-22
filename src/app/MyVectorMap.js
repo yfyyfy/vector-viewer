@@ -65,6 +65,14 @@ export default class SampleVectorMap extends VectorMap {
   polygonOnMouseOver(e) {
     // Highlight polygon
     const properties = e.layer.properties;
+
+    if (this.polygonOnMouseOver.polygon) {
+      if (this.polygonId(this.polygonOnMouseOver.polygon.properties) === this.polygonId(properties)) {
+        return;
+      }
+    }
+    this.polygonOnMouseOver.polygon = e.layer;
+
     L.popup()
       .setContent(properties.NAME || properties.TYPE)
       .setLatLng(e.latlng)
