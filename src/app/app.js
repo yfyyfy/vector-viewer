@@ -1,3 +1,3 @@
 import VectorMap from './MyVectorMap.js';
 
-let vm = new VectorMap();
+vm = new VectorMap();

@@ -90,6 +90,9 @@ export default class SampleVectorMap extends VectorMap {
   polygonOnClick(e) {
     const properties = e.layer.properties;
     console.log(':' + this.polygonId(properties));
+    if (this.temp) {
+      this.temp(e);
+    }
   }
 
   stylePolygon(properties, zoom) {
