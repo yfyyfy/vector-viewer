@@ -67,13 +67,15 @@ export default class SampleVectorMap extends VectorMap {
     const properties = e.layer.properties;
 
     if (this.polygonOnMouseOver.polygon) {
-      if (this.polygonId(this.polygonOnMouseOver.polygon.properties) === this.polygonId(properties)) {
+      let isSamePolygon = this.polygonId(this.polygonOnMouseOver.polygon.properties) === this.polygonId(properties);
+      let isPopupOpen = this.polygonOnMouseOver.popup && this.polygonOnMouseOver.popup.isOpen();
+      if (isSamePolygon && isPopupOpen) {
         return;
       }
     }
     this.polygonOnMouseOver.polygon = e.layer;
 
-    L.popup()
+    this.polygonOnMouseOver.popup = L.popup()
       .setContent(properties.NAME || properties.TYPE)
       .setLatLng(e.latlng)
       .openOn(this.map);
