@@ -23,7 +23,8 @@ export default class SampleVectorMap extends VectorMap {
 
   setHighlight(polygon) {
     if (this.setHighlight.highlightedPolygon) {
-      this.vectorGridLayer.resetFeatureStyle(this.setHighlight.highlightedPolygon);
+      let id = this.polygonId(this.setHighlight.highlightedPolygon.properties);
+      this.vectorGridLayer.resetFeatureStyle(id);
     }
     this.setHighlight.highlightedPolygon = polygon;
   }
@@ -40,7 +41,7 @@ export default class SampleVectorMap extends VectorMap {
       .setLatLng(e.latlng)
       .openOn(this.map);
 
-    this.setHighlight(this.polygonId(properties));
+    this.setHighlight(e.layer);
 
     const style = this.polygonStyle(properties.mapcolor7, true);
     this.vectorGridLayer.setFeatureStyle(this.polygonId(properties), style);
