@@ -25,8 +25,8 @@ export default class VectorMap {
     this.tileLayer.addTo(this.layerGroup);
   }
 
-  setupVectorGridLayer(jsonFile) {
-    let options = {
+  setupVectorGridLayer(jsonFile, options) {
+    const defaultOptions = {
       rendererFactory: L.svg.tile,
       vectorTileLayerStyles: {
         sliced: this.stylePolygon
@@ -37,10 +37,13 @@ export default class VectorMap {
       }
     };
 
+    let opts = Object.assign({}, defaultOptions);
+    Object.assign(opts, options);
+
     fetch(jsonFile).then((response) => {
       return response.json();
     }).then((polygon) => {
-      this.vectorGridLayer = L.vectorGrid.slicer(polygon, options);
+      this.vectorGridLayer = L.vectorGrid.slicer(polygon, opts);
       this.vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
       this.vectorGridLayer.addTo(this.layerGroup);
     });
