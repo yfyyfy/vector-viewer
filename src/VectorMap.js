@@ -44,6 +44,7 @@ export default class VectorMap {
     }).then((polygon) => {
       let vectorGridLayer = L.vectorGrid.slicer(polygon, opts);
       vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
+      vectorGridLayer.on('click', this.polygonOnClick);
       vectorGridLayer.addTo(this.layerGroup);
 
       patchVectorGridLayer(vectorGridLayer);
@@ -56,10 +57,12 @@ export default class VectorMap {
     this.stylePolygon = this.stylePolygon.bind(this);
     this.mapOnClick = this.mapOnClick.bind(this);
     this.polygonOnMouseOver = this.polygonOnMouseOver.bind(this);
+    this.polygonOnClick = this.polygonOnClick.bind(this);
   }
 
   mapOnClick(e) {}
   polygonOnMouseOver(e) {}
+  polygonOnClick(e) {}
   stylePolygon(properties, zoom) {return null;}
   polygonId(properties) {return null;}
 }

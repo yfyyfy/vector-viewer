@@ -87,6 +87,11 @@ export default class SampleVectorMap extends VectorMap {
     parent.setFeatureStyle(this.polygonId(properties), style);
   }
 
+  polygonOnClick(e) {
+    const properties = e.layer.properties;
+    console.log(':' + this.polygonId(properties));
+  }
+
   stylePolygon(properties, zoom) {
     return this.polygonStyle(properties.MAPCOLOR7, false);
   };
