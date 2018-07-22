@@ -1,4 +1,4 @@
-import VectorMap from './VectorMap.js';
+import VectorMap from '../VectorMap.js';
 
 export default class SampleVectorMap2 extends VectorMap {
   constructor (settings) {
