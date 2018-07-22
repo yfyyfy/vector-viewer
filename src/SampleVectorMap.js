@@ -1,6 +1,14 @@
 import VectorMap from './VectorMap.js';
 
 export default class SampleVectorMap extends VectorMap {
+  constructor (settings) {
+    super(settings);
+
+    this.setupTileLayer(settings.tileURL, settings.attribution);
+    this.setupVectorGridLayer(settings.jsonFile)
+      .then((layer) => {this.vectorGridLayer = layer;});
+  }
+
   polygonStyle(mapcolor7, forHighlight) {
     const p = mapcolor7 % 5;
     return {

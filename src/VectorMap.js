@@ -12,17 +12,16 @@ export default class VectorMap {
     this.map.setView({lat: 47.040182144806664, lng: 9.667968750000002}, 5);
 
     this.layerGroup = L.layerGroup().addTo(this.map);
-
-    this.setupTileLayer(settings.tileURL, settings.attribution);
-    this.setupVectorGridLayer(settings.jsonFile);
   }
 
   setupTileLayer(tileURL, attribution) {
-    this.tileLayer = L.tileLayer(tileURL, {
+    let tileLayer = L.tileLayer(tileURL, {
       attribution: attribution,
       opacity: 1
     });
-    this.tileLayer.addTo(this.layerGroup);
+    tileLayer.addTo(this.layerGroup);
+
+    return tileLayer;
   }
 
   setupVectorGridLayer(jsonFile, options) {
@@ -40,12 +39,14 @@ export default class VectorMap {
     let opts = Object.assign({}, defaultOptions);
     Object.assign(opts, options);
 
-    fetch(jsonFile).then((response) => {
+    return fetch(jsonFile).then((response) => {
       return response.json();
     }).then((polygon) => {
-      this.vectorGridLayer = L.vectorGrid.slicer(polygon, opts);
-      this.vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
-      this.vectorGridLayer.addTo(this.layerGroup);
+      let vectorGridLayer = L.vectorGrid.slicer(polygon, opts);
+      vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
+      vectorGridLayer.addTo(this.layerGroup);
+
+      return vectorGridLayer;
     });
   }
 
