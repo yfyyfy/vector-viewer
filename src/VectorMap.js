@@ -11,6 +11,8 @@ export default class VectorMap {
     this.map.on('click', this.mapOnClick);
     this.map.setView({lat: 47.040182144806664, lng: 9.667968750000002}, 5);
 
+    this.layerGroup = L.layerGroup().addTo(this.map);
+
     this.setupTileLayer(settings.tileURL, settings.attribution);
     this.setupVectorGridLayer(settings.jsonFile);
   }
@@ -20,7 +22,7 @@ export default class VectorMap {
       attribution: attribution,
       opacity: 1
     });
-    this.tileLayer.addTo(this.map);
+    this.tileLayer.addTo(this.layerGroup);
   }
 
   setupVectorGridLayer(jsonFile) {
@@ -40,7 +42,7 @@ export default class VectorMap {
     }).then((polygon) => {
       this.vectorGridLayer = L.vectorGrid.slicer(polygon, options);
       this.vectorGridLayer.on('mouseover', this.polygonOnMouseOver);
-      this.vectorGridLayer.addTo(this.map);
+      this.vectorGridLayer.addTo(this.layerGroup);
     });
   }
 
